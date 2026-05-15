@@ -1,0 +1,26 @@
+{
+  "name": "donna-app",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "android": "yarn workspace donna-android android",
+    "windows": "yarn workspace donna-windows dev",
+    "windows:build": "yarn workspace donna-windows build",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check"
+  },
+  "devDependencies": {
+    "electron-builder": "^26.8.1",
+    "turbo": "^2.3.0",
+    "typescript": "^5.3.0"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

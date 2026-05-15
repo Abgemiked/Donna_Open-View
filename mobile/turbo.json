@@ -1,0 +1,24 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "build/**"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "lint": {},
+    "type-check": {
+      "dependsOn": ["^build"]
+    },
+    "donna-windows#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "donna-windows#dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

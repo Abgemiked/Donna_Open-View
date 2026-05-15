@@ -1,0 +1,196 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: assistent-api:latest
+    container_name: assistent-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      VAULT_PATH: /vault
+      CHROMA_PATH: /data/chroma
+      OLLAMA_URL: http://ollama:11434
+      LOCAL_LLM_MODEL: qwen2.5:7b
+      APP_ENV: production
+    volumes:
+      - ./vault:/vault
+      - chroma:/data/chroma
+      - ./persist:/data/appdata
+    expose:
+      - "8000"
+    depends_on:
+      ollama:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+      ntfy:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+        required: false
+    networks:
+      - assistent
+      - npm_net
+      - verwaltung_net  # STE-217: Zugriff auf verwaltung-postgres (donna_readonly)
+      # DONNA-201: Zugriff auf abgemiked_redis (Twitch-Chat Pub/Sub, DB 2).
+      # chat-tool publiziert auf twitch:msg / twitch:event in diesen Redis.
+      - abgemiked_net
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://YOUR_SERVER_IP:8000/health/ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: assistent-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    expose:
+      - "11434"
+    networks:
+      - assistent
+    mem_limit: 10000m
+    mem_reservation: 6000m
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # kokoro-tts deaktiviert (DONNA-39): kein Deutsch-Support in Kokoro v1.
+  # Container-Dateien bleiben unter services/kokoro-tts/ als Referenz.
+  # kokoro-tts:
+  #   build:
+  #     context: ./services/kokoro-tts
+  #     dockerfile: Dockerfile
+  #   image: assistent-kokoro:latest
+  #   container_name: assistent-kokoro-tts
+  #   restart: unless-stopped
+  #   mem_limit: 2g
+  #   mem_reservation: 1g
+  #   cpus: "2.0"
+  #   expose:
+  #     - "8100"
+  #   volumes:
+  #     - kokoro_models:/home/tts/.cache/huggingface
+  #   networks:
+  #     - assistent
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-fsS", "http://YOUR_SERVER_IP:8100/health"]
+  #     interval: 60s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 120s
+
+
+  ntfy:
+    image: binwiederhier/ntfy:latest
+    container_name: assistent-ntfy
+    restart: unless-stopped
+    command: serve
+    volumes:
+      - ./ntfy.yml:/etc/ntfy/server.yml:ro
+      - ntfy_data:/var/lib/ntfy
+    expose:
+      - "80"
+    networks:
+      - assistent
+      - npm_net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://YOUR_SERVER_IP:80/v1/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: assistent-qdrant
+    restart: unless-stopped
+    expose:
+      - "6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - assistent
+
+  neo4j:
+    image: neo4j:5.22-community
+    container_name: assistent-neo4j
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-donnaneo4j}
+      NEO4J_server_memory_heap_initial__size: 512m
+      NEO4J_server_memory_heap_max__size: 768m
+      NEO4J_server_memory_pagecache_size: 256m
+      NEO4J_PLUGINS: '["apoc"]'
+    expose:
+      - "7687"
+      - "7474"
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    networks:
+      - assistent
+    mem_limit: 1500m
+    mem_reservation: 1024m
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://YOUR_SERVER_IP:7474 >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: assistent-syncthing
+    restart: unless-stopped
+    environment:
+      - PUID=10001
+      - PGID=10001
+    volumes:
+      - ./vault:/var/syncthing/vault
+      - syncthing_data:/var/syncthing
+    ports:
+      - "22000:22000/tcp"
+      - "22000:22000/udp"
+      - "21027:21027/udp"
+    expose:
+      - "8384"
+    networks:
+      - assistent
+      - npm_net
+
+networks:
+  assistent:
+    driver: bridge
+  npm_net:
+    external: true
+    name: nginx-proxy-manager_web_net
+  verwaltung_net:
+    # STE-217: Internes Netzwerk für Read-Only-Zugriff auf verwaltung-postgres.
+    # Nur der assistent-api-Container ist drin — kein Port-Expose nach außen.
+    # DONNA_VERWALTUNG_DB=false (default) → Verbindung wird nie aufgebaut.
+    external: true
+    name: verwaltung_default
+  abgemiked_net:
+    # DONNA-201: Netzwerk des chat-tool/Steuer-Tool-Stacks — hostet abgemiked_redis
+    # (Alias `redis`). assistent-api liest darüber Twitch-Chat Pub/Sub (DB 2).
+    external: true
+    name: abgemiked_data
+
+volumes:
+  chroma:
+  syncthing_data:
+  ollama_models:
+  # kokoro_models: entfernt (DONNA-191: Kokoro+Piper beide nicht aktiv)
+  qdrant_data:
+  ntfy_data:
+  neo4j_data:
+  neo4j_logs:

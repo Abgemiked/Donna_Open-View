@@ -1,0 +1,24 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:editTextBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- VoiceInputActivity — Bixby/Gemini-style Bottom-Sheet-Overlay
+         Transluzenter Hintergrund + kein Titel + Dim hinter dem Overlay.
+         Das Activity-Fenster hat transparenten Grund; das UI zeichnet selbst. -->
+    <style name="Theme.DonnaVoiceOverlay" parent="Theme.AppCompat.NoActionBar">
+        <!-- windowIsTranslucent=true blockiert auf Samsung OneUI den Lock-Screen.
+             Stattdessen: windowBackground transparent + windowIsTranslucent=false.
+             Die Activity erscheint dann als eigenes Fenster über dem Sperrbildschirm,
+             der Lock-Screen ist dahinter noch sichtbar dank FLAG_SHOW_WHEN_LOCKED. -->
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

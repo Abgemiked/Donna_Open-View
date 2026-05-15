@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    accessibility_service_config.xml — DONNA-127: DonnaAccessibilityService Konfiguration.
+
+    Datenschutz-Prinzipien:
+    - typeWindowContentChanged: liest Fensterinhalte NUR wenn explizit via AccessibilityBridge
+      angefordert (on-demand) ODER wenn App in WATCHED_PACKAGES-Whitelist ist
+    - canRetrieveWindowContent="true": erforderlich für extractScreenText()
+    - flagRetrieveInteractiveWindows: ermöglicht Lesen interaktiver Fenster
+    - Keine Passwort-Felder (gefiltert via isPassword-Check im Service)
+    - Banking-Apps-Blocklist im Service implementiert (BLOCKED_PACKAGES)
+    - Kein automatisches Senden ans Backend für On-Demand-Lesen
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagRetrieveInteractiveWindows"
+    android:canRetrieveWindowContent="true"
+    android:notificationTimeout="100"
+    android:description="@string/accessibility_service_description" />

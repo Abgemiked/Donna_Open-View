@@ -1,0 +1,211 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- DONNA-157: AICore benötigt minSdk 31 — Runtime-Guard in GeminiNanoModule.kt schützt ältere Geräte -->
+    <uses-sdk tools:overrideLibrary="com.google.ai.edge.aicore" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- WakeLock: hält CPU im Doze-Mode aktiv für NtfyService SSE-Stream -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- DONNA-13: Lokale Notifications auf Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- DONNA-13: ntfy Background Service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- DONNA-73: Wake-Word Mikrofon-Aufnahme im Hintergrund -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <!-- DONNA-13: Exakter AlarmManager-Restart für NtfyService nach onTaskRemoved (Samsung One UI) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- DONNA-119: Activity Recognition -->
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- DONNA-120: Health Connect -->
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <!-- DONNA-129: UWB Indoor-Positionierung (android:required="false" → graceful degradation) -->
+    <uses-feature android:name="android.hardware.uwb" android:required="false" />
+    <uses-permission android:name="android.permission.UWB_RANGING" />
+    <!-- DONNA-130: Kamera für Vision-Analyse (android:required="false" → graceful degradation) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- WhatsApp/Telegram-Queries fuer Linking.canOpenURL Support (Android 11+) -->
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".MainApplication"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="false"
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
+            <!-- Launcher-Icon -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- VoiceInputActivity — Bixby/Gemini-style Overlay für Donna
+             Öffnet als Bottom-Sheet über der aktuellen App wenn Donna als
+             Digitaler Assistent aufgerufen wird (Side-Button / Assistant-Einstellung).
+             excludeFromRecents: erscheint nicht in der Recents-Liste. -->
+        <activity
+            android:name=".VoiceInputActivity"
+            android:label="Donna"
+            android:theme="@style/Theme.DonnaVoiceOverlay"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:exported="true">
+            <!-- Android Assistant — erscheint in Einstellungen → Standard-Apps → Digitaler Assistent -->
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- PairingActivity — DONNA-103: TOTP-Pairing beim ersten App-Start -->
+        <activity
+            android:name=".PairingActivity"
+            android:label="Donna einrichten"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+
+        <!-- TrackingService — GPS + App-Aktivitäts-Tracking im Hintergrund -->
+        <service
+            android:name=".TrackingService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
+        <!-- DONNA-151: WakeWord deaktiviert — reaktivierbar durch Auskommentierung entfernen
+        <service
+            android:name=".WakeWordService"
+            android:foregroundServiceType="microphone"
+            android:exported="false" /> -->
+
+        <!-- NtfyService — DONNA-13: ntfy Push-Empfang auch bei App-Kill -->
+        <service
+            android:name=".NtfyService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <!-- NtfyRestartReceiver — DONNA-13: Empfängt AlarmManager-Broadcast nach onTaskRemoved.
+             exported="false": Nur App-interner AlarmManager-PendingIntent — kein externer Zugriff. -->
+        <receiver
+            android:name=".NtfyRestartReceiver"
+            android:exported="false" />
+
+        <!-- NtfyBootReceiver — Startet NtfyService nach Geräte-Neustart.
+             exported="true": BOOT_COMPLETED wird vom System-Prozess (UID 1000)
+             gesendet — exported=true erforderlich damit der Receiver erreichbar ist. -->
+        <receiver
+            android:name=".NtfyBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-119: ActivityRecognitionReceiver — empfängt ActivityTransitionResult von Google Play Services -->
+        <receiver
+            android:name=".ActivityRecognitionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.yourcompany.donna.ACTIVITY_TRANSITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-120: HealthConnectPermissionActivity — Pflicht laut Health Connect Docs -->
+        <activity
+            android:name=".HealthConnectPermissionActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+
+        <!-- DONNA-126: BixbyOnboardingActivity — einmaliger Onboarding-Hinweis für Bixby Quick Commands -->
+        <activity
+            android:name=".BixbyOnboardingActivity"
+            android:label="Donna mit Bixby verbinden"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+
+        <!-- DonnaAccessibilityService — Screen-Content-Tracking für News/Social/Video
+             DONNA-127: On-Demand Screen-Text via AccessibilityBridge (kein Auto-Push für alle Apps)
+             exported="false": Nur system-interner Aufruf via BIND_ACCESSIBILITY_SERVICE -->
+        <service
+            android:name=".DonnaAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- DONNA-121: GeofenceBroadcastReceiver — empfängt Geofence-Transitions von Google Play Services -->
+        <receiver
+            android:name=".GeofenceBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.yourcompany.donna.GEOFENCE_TRANSITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-122: DonnaNotificationListener — Notification Access für Donna
+             BIND_NOTIFICATION_LISTENER_SERVICE: Pflicht-Permission laut Android-Docs.
+             User muss in Einstellungen → Benachrichtigungszugriff aktivieren. -->
+        <service
+            android:name=".DonnaNotificationListener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+    </application>
+</manifest>

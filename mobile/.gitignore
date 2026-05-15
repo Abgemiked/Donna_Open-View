@@ -1,0 +1,49 @@
+# Monorepo
+node_modules/
+.turbo/
+dist/
+build/
+
+# React Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+.gradle/
+local.properties
+android/app/debug
+android/app/profile
+android/app/release
+GeneratedPluginRegistrant.*
+
+# Windows
+windows/arm64/
+windows/x64/
+*.appx
+*.msix
+
+# Android build cache
+**/.cxx/
+**/build/
+**/obj/
+**/bin/
+**/.gradle/
+**/generated/
+**/AutolinkedNativeModules.g.*
+**/packages.lock.json
+**/msbuild.binlog
+
+# Windows build output
+**/DonnaWindows/bin/
+**/DonnaWindows/obj/
+**/Generated Files/
+
+# Misc
+.DS_Store
+*.log
+.env
+.env.local
+*.keystore

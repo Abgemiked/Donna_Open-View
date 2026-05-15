@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Donna</string>
+    <string name="accessibility_service_description">Donna liest Titel und Inhalte aus ausgewählten Apps (News, YouTube, Social Media), damit sie dir persönlich relevante Antworten geben kann. Keine Passwörter, kein Banking.</string>
+</resources>
