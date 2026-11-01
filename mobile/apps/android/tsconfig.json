@@ -1,0 +1,10 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@donna/shared": ["../../packages/shared/src/index.ts"]
+    },
+    "types": ["jest", "react", "react-native"]
+  }
+}

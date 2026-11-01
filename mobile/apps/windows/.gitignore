@@ -1,0 +1,7 @@
+
+# Build outputs & releases
+release/
+release2/
+release-new*/
+dist/
+out/

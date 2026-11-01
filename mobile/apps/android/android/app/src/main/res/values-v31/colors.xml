@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- UX-01 One-UI-Theming: Light mit Material-You-Systemfarben (Android 12+ / API 31+)
+     Spiegelt src/theme/palettes.ts (RN). Paritaet der Fallback-Werte prueft src/__tests__/theme.test.ts. -->
+<resources>
+    <color name="donna_bg">@android:color/system_neutral1_10</color>
+    <color name="donna_surface">@android:color/system_neutral1_50</color>
+    <color name="donna_card">@android:color/system_neutral1_100</color>
+    <color name="donna_border">@android:color/system_neutral2_200</color>
+    <color name="donna_accent">@android:color/system_accent1_600</color>
+    <color name="donna_accent2">@android:color/system_accent1_700</color>
+    <color name="donna_text">@android:color/system_neutral1_900</color>
+    <color name="donna_muted">@android:color/system_neutral2_700</color>
+    <color name="donna_on_accent">@android:color/system_neutral1_0</color>
+    <color name="donna_ok">#166534</color>
+    <color name="donna_handle">@android:color/system_neutral2_300</color>
+    <color name="donna_mic_active">@android:color/system_accent1_100</color>
+</resources>

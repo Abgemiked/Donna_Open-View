@@ -1,0 +1,125 @@
+# Home-Assistant Allow-/Deny-Liste für Donna (hart durchgesetzt in
+# services/homeassistant_service.py). Fail-closed: was nicht erlaubt ist, ist verboten.
+# Stand 2026-10-30, Entity-Namen gegen Live-HA (YOUR_SERVER_IP:8123) verifiziert.
+#
+# Sicherheits-Policy (Mike): NIE lock/Türen/Fenster/Alarm am Tesla.
+# cover-Domain = ALLE 4 covers sind Tesla (Fenster/Frunk/Kofferraum/Ladeklappe) → komplett gesperrt.
+# lock-Domain = Tesla-Schloss + Ladekabel-Verriegelung → komplett gesperrt.
+#
+# WICHTIG (Review-Rat Stufe 3):
+# - Fahrzeug-Entities (Name enthält "tesla") sind NUR steuerbar, wenn sie unten in
+#   allow_entities namentlich stehen. Alles andere am Tesla = gesperrt (fail-closed).
+# - 5b (Mike-Entscheidung a): script/scene/automation sind ALLE freigegeben (nicht mehr
+#   explicit-only). RESTRISIKO bewusst akzeptiert — eine Routine kann HA-intern beliebiges
+#   tun (auch lock/cover/alarm). Donna ruft diese Domains nur indirekt (turn_on/trigger) auf;
+#   die harte Direkt-Sperre für lock/cover/alarm/siren/valve bleibt bestehen.
+
+allow_domains:
+  - light
+  - switch
+  - scene
+  - script
+  - climate
+  - fan
+  - media_player
+  - number
+  - select
+  - button
+  - automation   # 5b: HA-Automationen auslösbar (nur service=trigger, siehe allow_services)
+
+# Explizit gesperrte Domains (Doku + doppelte Absicherung; alles nicht in
+# allow_domains ist ohnehin verboten).
+deny_domains:
+  - lock
+  - cover
+  - alarm_control_panel
+  - siren
+  - valve
+  - vacuum
+  - lawn_mower
+  - water_heater
+  - humidifier
+  - remote
+  - camera
+  - device_tracker
+  - person
+  - zone
+
+# Einzel-Entities, die INNERHALB erlaubter Domains trotzdem gesperrt sind
+# (zusätzlich zur Fahrzeug-Regel — doppelte Absicherung).
+deny_entities:
+  - switch.tesla_model_y_wachter_modus          # Sentry/Wächter (alarm-nah)
+  - button.tesla_model_y_schlusselloses_fahren  # schlüsselloses Fahren (sicherheitskritisch)
+
+# Domains, in denen NUR namentlich freigegebene Entities (allow_entities) erlaubt sind.
+# 5b (Mike-Entscheidung a): script/scene/automation sind jetzt ALLE freigegeben (nicht mehr
+# explicit-only). RESTRISIKO bewusst akzeptiert: Skripte/Szenen/Automationen können HA-INTERN
+# beliebiges tun (auch lock/cover/alarm) — die Allowlist kann den Routine-INHALT nicht prüfen.
+# Die harte DIREKT-Sperre für lock/cover/alarm/siren bleibt (Donna ruft sie nie direkt auf).
+#
+# A1.3 — CONFIG-TOGGLE "kuratierte Routinen-Liste" (ohne Code-Änderung umschaltbar):
+#   Variante a (DEFAULT, hier aktiv):  explicit_entity_domains: []
+#       → alle script/scene/automation-Entities sind auslösbar (domainweit).
+#   Variante b (kuratiert, opt-in):    explicit_entity_domains: [script, scene, automation]
+#       → für die GELISTETEN Domains ist dann NUR noch erlaubt, was zusätzlich namentlich
+#         unter allow_entities steht (z.B. "- script.guten_morgen"). Alle anderen Routinen
+#         dieser Domain werden von HAAllowlist.check() fail-closed abgelehnt UND erscheinen
+#         nicht mehr im [Smart-Home]-Prompt (controllable_devices filtert sie raus).
+#   Der Toggle wirkt PRO Domain: nur die hier eingetragenen Domains werden explicit-only;
+#   nicht eingetragene Routinen-Domains bleiben in Variante a (offen).
+#   Die Leitplanken (Live-Sperre für script/scene/automation, Direkt-Sperre lock/cover/alarm,
+#   Tesla-Deny) sind davon UNABHÄNGIG und bleiben in beiden Varianten bestehen.
+explicit_entity_domains: []
+
+# Namentlich freigegebene Einzel-Entities. PFLICHT für alle Fahrzeug-Entities (tesla*)
+# und für script/scene. Was hier nicht steht, ist für diese gesperrt.
+allow_entities:
+  # Tesla — Klima
+  - climate.tesla_model_y_klima
+  - switch.tesla_model_y_entfrosten
+  # Tesla — Laden
+  - switch.tesla_model_y_aufladung
+  - number.tesla_model_y_ladelimit
+  - number.tesla_model_y_ladestromstarke
+  # Tesla — Sitz-/Lenkradheizung
+  - select.tesla_model_y_sitzheizung_vorne_links
+  - select.tesla_model_y_sitzheizung_vorne_rechts
+  - select.tesla_model_y_lenkradheizung
+  - switch.tesla_model_y_automatische_sitzklimatisierung_links
+  - switch.tesla_model_y_automatische_sitzklimatisierung_rechts
+  - switch.tesla_model_y_automatische_lenkradheizung
+  # Tesla — harmlose Buttons (KEIN homelink/Garage, KEIN schlüsselloses Fahren)
+  - button.tesla_model_y_wecken
+  - button.tesla_model_y_lichthupe
+  - button.tesla_model_y_hupen
+  # script/scene/automation brauchen hier KEINEN Eintrag mehr (5b: domainweit erlaubt).
+  # allow_entities ist nur noch für Fahrzeug-Entities (tesla*) Pflicht.
+
+# Pro Domain erlaubte Services. FAIL-CLOSED: fehlt eine Domain hier, ist sie gesperrt,
+# auch wenn sie in allow_domains steht (vom Loader erzwungen).
+allow_services:
+  light: [turn_on, turn_off, toggle]
+  switch: [turn_on, turn_off, toggle]
+  scene: [turn_on]
+  script: [turn_on, turn_off]
+  climate: [set_temperature, set_hvac_mode, turn_on, turn_off, set_preset_mode, set_fan_mode]
+  fan: [turn_on, turn_off, toggle, set_percentage]
+  media_player: [turn_on, turn_off, media_play, media_pause, media_stop, media_next_track, media_previous_track, volume_set, volume_up, volume_down, volume_mute, select_source]
+  number: [set_value]
+  select: [select_option]
+  button: [press]
+  automation: [trigger]   # 5b: NUR ausführen (trigger), NICHT turn_on/off (aktivieren/deaktivieren)
+
+# Tesla-Status-Sensoren (read-only, Prefetch). Nie steuerbar.
+# Ankunfts-/Entfernungssensoren bewusst NICHT hier — sie verraten aktive Navigation
+# (indirekter Standort-Hinweis, auch im Stream).
+status_entities:
+  - sensor.tesla_model_y_batteriestand
+  - sensor.tesla_model_y_batteriereichweite
+  - sensor.tesla_model_y_ladestatus
+  - sensor.tesla_model_y_ladegeschwindigkeit
+  - sensor.tesla_model_y_zeit_zum_vollstandigen_aufladen
+
+# Standort — NUR wenn Live-Guard inaktiv (keine Fahrzeugposition im Stream).
+location_entities:
+  - device_tracker.tesla_model_y_standort

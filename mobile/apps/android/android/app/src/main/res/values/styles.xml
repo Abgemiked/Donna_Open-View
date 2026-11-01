@@ -1,0 +1,31 @@
+<resources>
+    <!-- UX-01: DayNight (folgt dem System-Schema) + Fensterhintergrund/Akzent aus res/values*/colors.xml.
+         Der Hintergrund verhindert den weissen/schwarzen Blitz vor dem ersten RN-Frame. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:editTextBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/donna_bg</item>
+        <item name="colorAccent">@color/donna_accent</item>
+    </style>
+
+    <!-- VoiceInputActivity — Bixby/Gemini-style Bottom-Sheet-Overlay
+         Transluzenter Hintergrund + kein Titel + Dim hinter dem Overlay.
+         Das Activity-Fenster hat transparenten Grund; das UI zeichnet selbst. -->
+    <!-- UX-01: DayNight statt fest dunklem AppCompat — Panel-Farben kommen aus colors.xml (Light/Dark/Dynamic). -->
+    <style name="Theme.DonnaVoiceOverlay" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Echte Transparenz: die App hinter dem Overlay bleibt durch den ~28%-Scrim sichtbar (Gemini/Bixby-Look).
+             windowIsTranslucent=false machte das Fenster opak (schwarzer Hintergrund).
+             Lock-Screen: FLAG_SHOW_WHEN_LOCKED bleibt; falls Samsung One UI das Overlay dort nicht mehr
+             zeigt, ist das der bewusste Kompromiss (Sichtbarkeit ueber Apps hat Vorrang). -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <!-- UX-02: kein zusaetzliches System-Dim — die Abdunklung (ca. 28 %) zeichnet das Overlay selbst (donna_scrim) -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="colorAccent">@color/donna_accent</item>
+    </style>
+</resources>
