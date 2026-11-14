@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- UX-01 One-UI-Theming: Light-Fallback (Pulse-Light) fuer Geraete ohne Dynamic Colors / Android < 12
+     Spiegelt src/theme/palettes.ts (RN). Paritaet der Fallback-Werte prueft src/__tests__/theme.test.ts. -->
+<resources>
+    <color name="donna_bg">#f4f8fb</color>
+    <color name="donna_surface">#ffffff</color>
+    <color name="donna_card">#eaf1f7</color>
+    <color name="donna_border">#330369a1</color>
+    <color name="donna_accent">#0369a1</color>
+    <color name="donna_accent2">#075985</color>
+    <color name="donna_text">#0b1d2e</color>
+    <color name="donna_muted">#4a6275</color>
+    <color name="donna_on_accent">#ffffff</color>
+    <color name="donna_ok">#166534</color>
+    <color name="donna_handle">#b7cbda</color>
+    <color name="donna_mic_active">#d3e8f6</color>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    DONNA-220: Network Security Config
+    - Cleartext global deaktiviert (kein usesCleartextTraffic="true" im Manifest)
+    - Nur localhost + Android Emulator-IPs dürfen Cleartext (für Metro/Dev-Server)
+    - Alle anderen Verbindungen zwingen HTTPS (your-donna-instance.example.com, ntfy, etc.)
+    - debug-overrides: Im Debug-Build werden System-CA-Certs vertraut (Proxy-Debugging)
+-->
+<network-security-config>
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </debug-overrides>
+    <!-- Nur für lokale Entwicklung: localhost + Emulator-IPs dürfen Cleartext -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="false">YOUR_SERVER_IP</domain>
+        <domain includeSubdomains="false">YOUR_SERVER_IP</domain>
+    </domain-config>
+</network-security-config>
