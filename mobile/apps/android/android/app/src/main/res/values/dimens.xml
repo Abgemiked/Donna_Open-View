@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #122 Paket D: Design-Token. Spiegelt src/theme/tokens.ts (RN); die Paritaet prueft src/__tests__/designTokens.test.ts.
+     Werte orientieren sich am Overlay (LiveBubbleService / VoiceInputActivity / ActionCardBuilder). -->
+<resources>
+    <dimen name="donna_radius_sm">8dp</dimen>
+    <dimen name="donna_radius_md">14dp</dimen>
+    <dimen name="donna_radius_lg">22dp</dimen>
+    <dimen name="donna_radius_pill">28dp</dimen>
+    <dimen name="donna_radius_input">16dp</dimen>
+    <dimen name="donna_radius_row">18dp</dimen>
+    <dimen name="donna_radius_card">28dp</dimen>
+
+    <dimen name="donna_space_xs">4dp</dimen>
+    <dimen name="donna_space_sm">8dp</dimen>
+    <dimen name="donna_space_md">12dp</dimen>
+    <dimen name="donna_space_lg">16dp</dimen>
+    <dimen name="donna_space_xl">24dp</dimen>
+    <dimen name="donna_space_gutter">20dp</dimen>
+    <dimen name="donna_space_xxl">32dp</dimen>
+
+    <dimen name="donna_text_caption">12sp</dimen>
+    <dimen name="donna_text_label">13sp</dimen>
+    <dimen name="donna_text_body">15sp</dimen>
+    <dimen name="donna_text_title">18sp</dimen>
+    <dimen name="donna_text_display">26sp</dimen>
+
+    <dimen name="donna_touch_min">48dp</dimen>
+
+    <integer name="donna_motion_fast">150</integer>
+    <integer name="donna_motion_base">300</integer>
+    <integer name="donna_motion_orb_cycle">1000</integer>
+</resources>

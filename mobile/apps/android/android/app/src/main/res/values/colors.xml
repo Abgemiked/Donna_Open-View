@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Feste Palette Hell (#134 P1)
+     Spiegelt src/theme/palettes.ts (RN); Paritaet und Kontrast pruefen src/__tests__/theme.test.ts.
+     Material You (values-v31) entfaellt (#134 P1): feste Paletten. -->
+<resources>
+    <color name="donna_bg">#f6f5fb</color>
+    <color name="donna_surface">#ffffff</color>
+    <color name="donna_card">#ffffff</color>
+    <color name="donna_border">#e6e3f2</color>
+    <color name="donna_accent">#4b3bc9</color>
+    <color name="donna_accent2">#352297</color>
+    <color name="donna_text">#2a2740</color>
+    <color name="donna_muted">#5c5878</color>
+    <color name="donna_on_accent">#ffffff</color>
+    <color name="donna_ok">#166534</color>
+    <color name="donna_accent_solid">#6c5ce7</color>
+    <color name="donna_on_accent_solid">#ffffff</color>
+    <color name="donna_action">#34e0b2</color>
+    <color name="donna_on_action">#04241e</color>
+    <color name="donna_surface_sunken">#eeecf7</color>
+    <color name="donna_accent_container">#e3deff</color>
+    <color name="donna_on_accent_container">#352297</color>
+    <color name="donna_heading">#15131f</color>
+    <color name="donna_control_border">#6b6880</color>
+    <color name="donna_danger">#be123c</color>
+    <color name="donna_handle">#cfcae6</color>
+    <color name="donna_mic_active">#e3deff</color>
+</resources>

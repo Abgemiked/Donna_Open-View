@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="donna_orb_error">#fbbf24</color>
+    <color name="donna_scrim">#4d000000</color>
+    <!-- #134 P7: Orb-Kern, Panel-Grund und Tasten-Grund des Overlays (entsprechen den Entwuerfen B-/A-Overlay) -->
+    <color name="donna_orb_core">#24102f</color>
+    <color name="donna_overlay_panel">#14061b</color>
+    <color name="donna_overlay_chip">#24102f</color>
+</resources>

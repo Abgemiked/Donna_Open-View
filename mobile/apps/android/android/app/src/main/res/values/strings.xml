@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Donna</string>
+    <string name="accessibility_service_description">Donna liest automatisch den sichtbaren Text aus ausgewählten Apps (u. a. WhatsApp inklusive Chat-Inhalten, YouTube, TikTok, Instagram, News) und sendet ihn an deinen Donna-Server, damit sie dir persönlich relevante Antworten geben kann. Ausgenommen sind Passwortfelder sowie bekannte Banking- und Passwort-Manager-Apps.</string>
+</resources>

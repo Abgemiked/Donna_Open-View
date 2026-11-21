@@ -1,0 +1,16 @@
+Schriften der Donna-App (beide SIL Open Font License 1.1, Lizenztexte siehe OFL-*.txt)
+
+Bricolage Grotesque - (c) 2022 The Bricolage Grotesque Project Authors
+  bricolage_grotesque_bold.ttf      <- https://raw.githubusercontent.com/ateliertriay/bricolage/HEAD/fonts/ttf/BricolageGrotesque-Bold.ttf
+  bricolage_grotesque_extrabold.ttf <- https://raw.githubusercontent.com/ateliertriay/bricolage/HEAD/fonts/ttf/BricolageGrotesque-ExtraBold.ttf
+  Lizenz: https://raw.githubusercontent.com/ateliertriay/bricolage/HEAD/OFL.txt
+
+Nunito Sans - (c) 2016 The Nunito Sans Project Authors
+  nunito_sans_regular.ttf  <- https://raw.githubusercontent.com/googlefonts/nunitosans/HEAD/fonts/ttf/NunitoSans-Regular.ttf
+  nunito_sans_semibold.ttf <- https://raw.githubusercontent.com/googlefonts/nunitosans/HEAD/fonts/ttf/NunitoSans-SemiBold.ttf
+  nunito_sans_bold.ttf     <- https://raw.githubusercontent.com/googlefonts/nunitosans/HEAD/fonts/ttf/NunitoSans-Bold.ttf
+  Lizenz: https://raw.githubusercontent.com/googlefonts/nunitosans/HEAD/OFL.txt
+
+Statische Schnitte (je Gewicht eine Datei): React Native waehlt unter Android die Datei ueber den Familiennamen
+(assets/fonts/<fontFamily>.ttf); Variable-Achsen werden dort nicht angesteuert. Dieselben Dateien liegen in res/font
+(Kotlin, Dateinamen nur a-z0-9_). Eine Aenderung hier immer an beiden Orten und in theme/tokens.ts (FONT_FAMILY) nachziehen.

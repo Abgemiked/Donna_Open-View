@@ -1,0 +1,3 @@
+# sherpa-onnx AAR wird automatisch via Gradle downloadSherpaOnnx-Task heruntergeladen
+# Nicht einchecken (zu groß für Git, ~180MB)
+*.aar
