@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #252: Ideen-Widget in allen Groessen — eine vertikal zentrierte Zeile. Links Kopf (Gluehbirne + Titel, je nach
+     Breite, siehe WidgetSizing.ideaHeader), rechts zwei runde 48-dp-Symboltasten im Stil der Overlay-Kopfzeile (#251):
+     Tastatur (donna_overlay_chip) = Tippen, Mikro (donna_accent_solid) = Donnas eigene Aufnahme. Tasten wachsen nie mit.
+     Ohne Kopf (GONE) stehen die Tasten mittig. @android:id/background = Clipping auf Android 12+. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <LinearLayout
+        android:id="@+id/widget_idea_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:importantForAccessibility="no"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_donna_idea"
+            android:tint="@color/donna_accent_solid" />
+
+        <TextView
+            android:id="@+id/widget_idea_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:importantForAccessibility="no"
+            android:maxLines="1"
+            android:text="@string/widget_idea_title"
+            android:textColor="@color/donna_heading"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/widget_idea_text"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/widget_chip_bg"
+        android:contentDescription="@string/widget_idea_type"
+        android:padding="12dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_donna_keyboard"
+        android:tint="@color/donna_text" />
+
+    <ImageView
+        android:id="@+id/widget_idea_voice"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/widget_mic_bg"
+        android:contentDescription="@string/widget_idea_speak"
+        android:padding="12dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_donna_mic"
+        android:tint="@color/donna_on_accent_solid" />
+</LinearLayout>

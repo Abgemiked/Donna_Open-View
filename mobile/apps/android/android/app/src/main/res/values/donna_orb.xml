@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- UX-02: Zusatzfarben fuer Orb/Overlay (nicht Teil der Pulse-Palette in colors.xml, daher eigene Datei).
+     Fehler = Bernstein (kein Rot: Fehler sollen hilfreich wirken, nicht alarmierend). -->
+<resources>
+    <color name="donna_orb_error">#b45309</color>
+    <!-- Abdunklung hinter dem Overlay: ca. 28 % statt vorher 63 % + System-Dim -->
+    <color name="donna_scrim">#47000000</color>
+    <!-- #134 P7: Orb-Kern, Panel-Grund und Tasten-Grund des Overlays (entsprechen den Entwuerfen B-/A-Overlay) -->
+    <color name="donna_orb_core">#e3deff</color>
+    <color name="donna_overlay_panel">#ffffff</color>
+    <color name="donna_overlay_chip">#eeecf7</color>
+    <!-- Farbkranz des Orbs (in beiden Modi gleich) -->
+    <color name="donna_orb_violet">#7a3bd1</color>
+    <color name="donna_orb_magenta">#de3e96</color>
+    <color name="donna_orb_yellow">#ffd60a</color>
+    <color name="donna_orb_blue">#608ce6</color>
+    <color name="donna_orb_indigo">#5b49d6</color>
+</resources>

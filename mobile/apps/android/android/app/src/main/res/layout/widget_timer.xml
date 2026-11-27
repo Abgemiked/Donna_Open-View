@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #247: Timer-Widget 3x1 (bis 4x2): bis zu 3 Zeilen Beschriftung + Countdown. Tipp oeffnet die Timer der Uhr-App. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/widget_mic_bg"
+        android:importantForAccessibility="no"
+        android:padding="8dp"
+        android:src="@drawable/ic_donna_history"
+        android:tint="@color/donna_on_accent_solid" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/timer_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/widget_timer_empty"
+            android:textColor="@color/donna_text"
+            android:textSize="13sp" />
+
+        <LinearLayout android:id="@+id/timer_row0" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical" android:orientation="horizontal" android:visibility="gone">
+            <TextView android:id="@+id/timer_label0" style="@style/DonnaWidgetTimerLabel" />
+            <Chronometer android:id="@+id/timer_clock0" style="@style/DonnaWidgetTimerClock" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/timer_row1" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:gravity="center_vertical" android:orientation="horizontal" android:visibility="gone">
+            <TextView android:id="@+id/timer_label1" style="@style/DonnaWidgetTimerLabel" />
+            <Chronometer android:id="@+id/timer_clock1" style="@style/DonnaWidgetTimerClock" />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/timer_row2" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:gravity="center_vertical" android:orientation="horizontal" android:visibility="gone">
+            <TextView android:id="@+id/timer_label2" style="@style/DonnaWidgetTimerLabel" />
+            <Chronometer android:id="@+id/timer_clock2" style="@style/DonnaWidgetTimerClock" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

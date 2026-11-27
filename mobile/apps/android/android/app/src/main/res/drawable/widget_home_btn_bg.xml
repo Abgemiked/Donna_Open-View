@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #244: Knopf im Szenen/Routinen-Widget (Pille, Akzent-Container wie der Zweitknopf der Erinnerungen). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/donna_accent_container" />
+    <corners android:radius="999dp" />
+</shape>

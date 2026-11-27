@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #156: kleines Benachrichtigungs-Symbol (Statusleiste): Kugelumriss + Wellen, eine Farbe, kein Verlauf. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:pathData="M2.5,12a9.5,9.5 0 1,0 19,0a9.5,9.5 0 1,0 -19,0z"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="1.6" />
+    <group android:pivotX="12" android:pivotY="12" android:scaleX="0.6" android:scaleY="0.6">
+        <path
+            android:pathData="M4 11v2M8 8v8M12 5v14M16 8v8M20 11v2"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="2.6"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

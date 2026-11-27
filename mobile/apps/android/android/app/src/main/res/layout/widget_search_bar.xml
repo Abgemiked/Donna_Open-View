@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #232 + Nachbesserung (Mike, #236): schlanke Pille wie die Google-Suchleiste / Samsung Finder (One UI).
+     Die Zelle selbst bleibt durchsichtig; die Pille sitzt senkrecht mittig und ist nur so hoch wie die Icons
+     (48 dp) plus 4 dp Innenabstand = 56 dp (Hoehe der Google-Suchleiste, #243), mit voll abgerundeten Enden. Donna-Icon links und Mikro rechts gleich gross.
+     @android:id/background liegt auf der Pille: Android 12+ schneidet mit dem System-Radius zu; die Pille mit 28-dp-Enden
+     liegt vollstaendig innerhalb dieses Umrisses, wird also nie angeschnitten. Die ganze Pille ist tippbar (Textmodus). RemoteViews: nur FrameLayout/LinearLayout/TextView/ImageView. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@android:id/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/widget_pill_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/widget_search_logo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:importantForAccessibility="no"
+            android:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/widget_search_field"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/widget_search_field"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/widget_search_hint"
+            android:textColor="@color/donna_muted"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/widget_search_mic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/widget_mic_bg"
+            android:contentDescription="@string/widget_search_mic"
+            android:padding="12dp"
+            android:src="@drawable/ic_donna_mic"
+            android:tint="@color/donna_on_accent_solid" />
+    </LinearLayout>
+</FrameLayout>

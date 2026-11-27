@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #233: Ideen-Schnellerfassung. Zwei Ansichten im selben Fenster: Erfassen (Text/Diktat/Projekt) und Vorschau
+     ("Als Idee speichern?"). Der Tipp auf Speichern ist die Bestaetigung. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/idea_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#47000000"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/idea_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="12dp"
+        android:background="@drawable/idea_card_bg"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/idea_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="@string/idea_heading"
+            android:textColor="@color/donna_heading"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Ansicht 1: Erfassen -->
+        <LinearLayout
+            android:id="@+id/idea_edit_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/idea_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/idea_input_bg"
+                android:gravity="top|start"
+                android:hint="@string/idea_hint"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLength="2000"
+                android:maxLines="8"
+                android:minHeight="96dp"
+                android:padding="14dp"
+                android:textColor="@color/donna_text"
+                android:textColorHint="@color/donna_muted"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/idea_dictate"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/idea_round_accent_bg"
+                    android:contentDescription="@string/idea_dictate"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_donna_mic"
+                    android:tint="@color/donna_on_accent_solid" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:labelFor="@+id/idea_projekt"
+                    android:text="@string/idea_projekt"
+                    android:textColor="@color/donna_muted"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/idea_projekt"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- #243: Diktat-Status (hört zu / Live-Text / Hinweis), Donnas eigene Aufnahme statt Google-Dialog -->
+            <TextView
+                android:id="@+id/idea_listen_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:accessibilityLiveRegion="polite"
+                android:maxLines="4"
+                android:textColor="@color/donna_muted"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/idea_cancel"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/idea_cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/donna_accent" />
+
+                <Button
+                    android:id="@+id/idea_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/idea_button_bg"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/idea_next"
+                    android:textAllCaps="false"
+                    android:textColor="@color/donna_on_accent_solid" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Ansicht 2: Vorschau -->
+        <LinearLayout
+            android:id="@+id/idea_preview_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/idea_preview_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/idea_input_bg"
+                android:maxLines="10"
+                android:padding="14dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/donna_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/idea_preview_meta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/donna_muted"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/idea_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:accessibilityLiveRegion="polite"
+                android:textColor="@color/donna_text"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/idea_back"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/idea_back"
+                    android:textAllCaps="false"
+                    android:textColor="@color/donna_accent" />
+
+                <Button
+                    android:id="@+id/idea_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/idea_button_bg"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/idea_save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/donna_on_accent_solid" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

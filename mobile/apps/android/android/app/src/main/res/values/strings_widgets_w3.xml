@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Welle 3 (#237): eigene Datei, damit strings_widgets.xml (W1/W2) unangetastet bleibt. -->
+<resources>
+    <!-- #244 Szenen/Routinen -->
+    <string name="widget_home_label">Donna-Szenen</string>
+    <string name="widget_home_desc">Szenen und Routinen auf Knopfdruck, jeweils mit kurzer Rückfrage.</string>
+    <string name="widget_home_setup">Tippen, um Szenen oder Routinen zu wählen.</string>
+    <string name="widget_home_edit">Knöpfe auswählen</string>
+    <string name="widget_home_config_title">Knöpfe auswählen</string>
+    <string name="widget_home_pick">Wähle bis zu %1$d Szenen oder Routinen.</string>
+    <string name="widget_home_max">Höchstens %1$d Knöpfe.</string>
+    <string name="widget_home_none">Keine Szenen oder Routinen gefunden. Routinen legst du im Gespräch mit Donna an.</string>
+    <string name="widget_home_confirm_hint">Erst mit Ja wird geschaltet.</string>
+    <string name="widget_home_yes">Ja, starten</string>
+    <string name="widget_home_no">Nein</string>
+    <string name="widget_home_running">Wird angestoßen …</string>
+    <string name="widget_home_scene_ok">Szene „%1$s“ angestoßen.</string>
+    <string name="widget_home_routine_ok">Routine „%1$s“ angestoßen.</string>
+    <string name="widget_home_device_failed">Am Handy %1$d Schritt(e) nicht ausgeführt.</string>
+    <string name="widget_home_offline_prefix">Ohne Verbindung, nur Handy-Schritte:</string>
+    <string name="widget_home_offline_unknown">Donna ist nicht erreichbar, und die Routine kenne ich offline nicht.</string>
+    <string name="widget_home_outcome_unknown">Keine Antwort von Donna. Ob es geschaltet hat, ist unklar. Schau kurz nach.</string>
+    <string name="widget_home_live_locked">Im Stream ist das gesperrt.</string>
+    <string name="widget_home_unreachable">Donna ist gerade nicht erreichbar.</string>
+    <string name="widget_home_no_token">Donna ist noch nicht verbunden. Öffne die App.</string>
+    <string name="widget_home_rate_limited">Gerade zu viele Schaltungen. Warte kurz.</string>
+    <string name="widget_home_not_configured">Das ist am Server nicht eingerichtet.</string>
+    <string name="widget_home_unknown">Diesen Knopf gibt es nicht mehr. Wähle die Knöpfe neu.</string>
+    <string name="widget_home_failed">Das hat nicht geklappt.</string>
+
+    <!-- #245 Nicht stören -->
+    <string name="widget_focus_label">Nicht stören</string>
+    <string name="widget_focus_desc">Nicht stören für den Stream-Fokus an- und ausschalten.</string>
+    <string name="widget_focus_on">An · tippen zum Ausschalten</string>
+    <string name="widget_focus_off">Aus · tippen zum Einschalten</string>
+    <string name="widget_focus_no_permission">Recht fehlt · tippen zum Erteilen</string>
+    <string name="widget_focus_hint_permission">Erlaube Donna „Nicht stören“-Zugriff und tippe danach erneut.</string>
+    <string name="widget_focus_failed">Das System hat „Nicht stören“ nicht übernommen.</string>
+
+    <!-- #246 Tagesbriefing -->
+    <string name="widget_briefing_label">Tagesbriefing</string>
+    <string name="widget_briefing_desc">Dein kurzes Tagesbriefing. Tippen öffnet Donna mit dem Briefing.</string>
+    <string name="widget_briefing_title">Tagesbriefing</string>
+    <string name="widget_briefing_no_token">Donna ist noch nicht verbunden. Öffne die App.</string>
+    <string name="widget_briefing_question">Gib mir mein Tagesbriefing.</string>
+
+    <!-- #247 Timer -->
+    <string name="widget_timer_label">Donna-Timer</string>
+    <string name="widget_timer_desc">Countdown der Timer, die Donna gestellt hat.</string>
+    <string name="widget_timer_title">Timer</string>
+    <string name="widget_timer_empty">Kein Timer von Donna läuft.</string>
+    <string name="widget_timer_unnamed">Timer</string>
+</resources>

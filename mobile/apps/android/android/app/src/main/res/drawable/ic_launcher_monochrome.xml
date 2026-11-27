@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #156: einfarbige Ebene (thematisches Icon, ab Android 13): Kugelumriss + Wellen; das System faerbt nach Alpha. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:pathData="M33.3,54a20.7,20.7 0 1,0 41.4,0a20.7,20.7 0 1,0 -41.4,0z"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="2.2" />
+    <group android:pivotX="12" android:pivotY="12" android:scaleX="1.15" android:scaleY="1.15" android:translateX="42" android:translateY="42">
+        <path
+            android:pathData="M4 11v2M8 8v8M12 5v14M16 8v8M20 11v2"
+            android:strokeColor="#FF000000"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

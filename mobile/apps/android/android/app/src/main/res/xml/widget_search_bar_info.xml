@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #232: 4x1, eine Zeile, nur horizontal skalierbar; die Pille sitzt in jeder Breite mittig. targetCell* (Android 12+/One UI), min* fuer aeltere Launcher. Kein periodisches Update. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_search_desc"
+    android:initialLayout="@layout/widget_search_bar"
+    android:minHeight="56dp"
+    android:minResizeHeight="56dp"
+    android:minResizeWidth="180dp"
+    android:minWidth="250dp"
+    android:previewImage="@mipmap/ic_launcher"
+    android:previewLayout="@layout/widget_search_bar"
+    android:resizeMode="horizontal"
+    android:targetCellHeight="1"
+    android:targetCellWidth="4"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

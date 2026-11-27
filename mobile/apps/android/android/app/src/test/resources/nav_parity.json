@@ -1,0 +1,55 @@
+{
+  "_comment": "Gemeinsame Fixtures: Haupt-Chat (getNavTarget, navActions.ts) und Overlay (NavActionLogic.targetOfAction) muessen fuer dieselbe Action dasselbe Navigationsziel liefern.",
+  "cases": [
+    {
+      "name": "volle Adresse hat Vorrang vor allem",
+      "action": {"type": "tesla_navigate", "destination": "Marienplatz", "resolved_address": "Marienplatz, München", "nav_address": "Marienplatz 1, 80331 München, Deutschland"},
+      "expected": "Marienplatz 1, 80331 München, Deutschland"
+    },
+    {
+      "name": "aufgeloeste Adresse vor gesprochenem Ziel",
+      "action": {"type": "tesla_navigate", "destination": "zum Bahnhof", "resolved_address": "Hauptbahnhof Nürnberg, Nürnberg"},
+      "expected": "Hauptbahnhof Nürnberg, Nürnberg"
+    },
+    {
+      "name": "ohne resolved_address: gesprochenes Ziel",
+      "action": {"type": "tesla_navigate", "destination": "YOUR_HOME_CITY"},
+      "expected": "YOUR_HOME_CITY"
+    },
+    {
+      "name": "nur Suchanfrage",
+      "action": {"type": "tesla_navigate", "query": "Supercharger Ansbach"},
+      "expected": "Supercharger Ansbach"
+    },
+    {
+      "name": "JSON-null in resolved_address und nav_address: nie das Wort null",
+      "action": {"type": "tesla_navigate", "destination": "YOUR_HOME_CITY", "resolved_address": null, "nav_address": null},
+      "expected": "YOUR_HOME_CITY"
+    },
+    {
+      "name": "leere und Leerraum-Felder werden uebersprungen",
+      "action": {"type": "tesla_navigate", "destination": "Ansbach", "resolved_address": "   ", "nav_address": ""},
+      "expected": "Ansbach"
+    },
+    {
+      "name": "Adresse wird getrimmt",
+      "action": {"type": "tesla_navigate", "destination": "x", "resolved_address": "  Schlossplatz 1, Ansbach \n"},
+      "expected": "Schlossplatz 1, Ansbach"
+    },
+    {
+      "name": "Nicht-Strings zaehlen als fehlend",
+      "action": {"type": "tesla_navigate", "destination": "Rothenburg", "resolved_address": 5, "nav_address": {"a": 1}},
+      "expected": "Rothenburg"
+    },
+    {
+      "name": "nichts vorhanden: leeres Ziel (Karte wird nicht angeboten)",
+      "action": {"type": "tesla_navigate"},
+      "expected": ""
+    },
+    {
+      "name": "Handy-Navigation (navigate) nutzt dieselbe Prioritaet fuers Sendeziel",
+      "action": {"type": "navigate", "destination": "Ulm", "resolved_address": "Ulm, Baden-Württemberg"},
+      "expected": "Ulm, Baden-Württemberg"
+    }
+  ]
+}

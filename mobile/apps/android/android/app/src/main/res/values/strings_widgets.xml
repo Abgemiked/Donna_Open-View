@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Welle 1 Widgets (#232/#233/#234) -->
+<resources>
+    <string name="widget_search_label">Donna-Suchleiste</string>
+    <string name="widget_search_desc">Frag Donna: Tippen öffnet die Tastatur, das Mikro öffnet das Overlay.</string>
+    <string name="widget_search_hint">Donna fragen…</string>
+    <string name="widget_search_mic">Donna per Sprache fragen</string>
+    <string name="widget_search_field">Donna eine Frage tippen</string>
+    <string name="widget_idea_label">Idee</string>
+    <string name="widget_idea_desc">Idee schnell erfassen, landet nach Bestätigung in deiner Inbox.</string>
+    <string name="widget_idea_title">Idee festhalten</string>
+    <string name="widget_idea_type">Idee tippen</string>
+    <string name="widget_idea_speak">Idee sprechen</string>
+
+    <string name="tile_label">Donna</string>
+
+    <string name="shortcut_frage_short">Frage tippen</string>
+    <string name="shortcut_frage_long">Donna eine Frage tippen</string>
+    <string name="shortcut_idee_short">Idee erfassen</string>
+    <string name="shortcut_idee_long">Idee für die Inbox erfassen</string>
+
+    <string name="idea_heading">Idee erfassen</string>
+    <string name="idea_preview_heading">Als Idee speichern?</string>
+    <string name="idea_hint">Was ist dir eingefallen?</string>
+    <string name="idea_dictate">Idee diktieren</string>
+    <string name="idea_dictate_stop">Diktat beenden</string>
+    <string name="idea_listening">Ich höre zu … Tipp aufs Stopp-Symbol, wenn du fertig bist.</string>
+    <string name="idea_projekt">Projekt</string>
+    <string name="idea_cancel">Abbrechen</string>
+    <string name="idea_next">Weiter</string>
+    <string name="idea_back">Ändern</string>
+    <string name="idea_save">Speichern</string>
+    <string name="idea_empty">Schreib oder sprich erst deine Idee.</string>
+    <string name="idea_preview_meta">Projekt: %1$s · landet in deiner Inbox</string>
+    <string name="idea_saving">Speichere …</string>
+    <string name="idea_saved_nr">Idee gespeichert (#%1$d).</string>
+    <string name="idea_saved">Idee gespeichert.</string>
+    <string name="idea_queued">Gerade kein Server erreichbar. Ich habe die Idee gemerkt und sende sie später.</string>
+    <string name="idea_rejected">Der Server hat die Idee nicht angenommen. Ändere sie oder versuch es später nochmal.</string>
+    <string name="idea_queue_full">Zu viele Ideen warten schon auf das Senden. Versuch es später nochmal.</string>
+    <!-- Welle 2 (#236/#239/#240/#241) -->
+    <string name="widget_loading">Wird geladen …</string>
+    <string name="widget_offline">offline</string>
+    <string name="widget_stand">Stand %1$s</string>
+    <string name="widget_reminders_label">Donna-Erinnerungen</string>
+    <string name="widget_reminders_desc">Deine nächsten Erinnerungen mit Erledigt und Später.</string>
+    <string name="widget_reminders_title">Erinnerungen</string>
+    <string name="widget_reminders_empty">Keine offenen Erinnerungen.</string>
+    <string name="widget_reminders_unreachable">Donna ist gerade nicht erreichbar. Ich versuche es später erneut.</string>
+    <string name="widget_reminders_no_token">Donna ist noch nicht verbunden. Öffne die App.</string>
+    <string name="widget_reminder_done">Erledigt</string>
+    <string name="widget_reminder_snooze">Später, in 10 Minuten</string>
+    <string name="widget_calendar_label">Donna-Termine</string>
+    <string name="widget_calendar_desc">Deine nächsten Termine von heute und morgen aus dem Handy-Kalender.</string>
+    <string name="widget_calendar_title">Termine</string>
+    <string name="widget_calendar_empty">Heute und morgen keine Termine.</string>
+    <string name="widget_calendar_no_permission">Donna darf den Kalender noch nicht lesen. Tippen, um Donna zu öffnen.</string>
+    <string name="widget_stream_label">Stream</string>
+    <string name="widget_stream_title">Stream</string>
+    <string name="widget_next_reminder">Erinnerung · %1$s</string>
+    <string name="widget_next_event">Termin · %1$s</string>
+    <string name="widget_stream_desc">Am Streamtag der Zeitplan, sonst der nächste Stream.</string>
+</resources>

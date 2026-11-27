@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #244: Szenen/Routinen, 3x1 (bis 4x2). Auswahl beim Platzieren; ab Android 12 ueber "Widget einstellen" aenderbar. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.yourcompany.donna.widget.HomeActionsConfigActivity"
+    android:description="@string/widget_home_desc"
+    android:initialLayout="@layout/widget_home_actions"
+    android:minHeight="40dp"
+    android:minResizeHeight="40dp"
+    android:minResizeWidth="110dp"
+    android:minWidth="180dp"
+    android:previewImage="@mipmap/ic_launcher"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellHeight="1"
+    android:targetCellWidth="3"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />

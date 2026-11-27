@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #239: eine Erinnerung — Zeit, Text, Spaeter (10 Min), Erledigt. Hoehe = WidgetFormat.ROW_DP. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/widget_row_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:minWidth="44dp"
+        android:textColor="@color/donna_accent"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widget_row_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/donna_text"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/widget_row_snooze"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/widget_btn_bg"
+        android:contentDescription="@string/widget_reminder_snooze"
+        android:padding="7dp"
+        android:src="@drawable/ic_donna_history"
+        android:tint="@color/donna_on_accent_container" />
+
+    <ImageView
+        android:id="@+id/widget_row_done"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/widget_mic_bg"
+        android:contentDescription="@string/widget_reminder_done"
+        android:padding="7dp"
+        android:src="@drawable/ic_donna_check"
+        android:tint="@color/donna_on_accent_solid" />
+</LinearLayout>

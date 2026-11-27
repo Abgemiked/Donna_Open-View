@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #245: Nicht-stoeren-Schalter 2x1. Ganzes Widget ist die Tipp-Flaeche; schmal nur das Symbol. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp">
+
+    <ImageView
+        android:id="@+id/widget_focus_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/widget_btn_bg"
+        android:importantForAccessibility="no"
+        android:padding="8dp"
+        android:src="@drawable/ic_donna_volume_off" />
+
+    <LinearLayout
+        android:id="@+id/widget_focus_texts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/widget_focus_label"
+            android:textColor="@color/donna_heading"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widget_focus_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/widget_loading"
+            android:textColor="@color/donna_text"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

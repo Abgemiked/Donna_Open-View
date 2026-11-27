@@ -1,0 +1,17 @@
+// CI-only: JS-Bundling (Metro/Hermes) fuer reine Kotlin-Unit-Tests ueberspringen (Refs #198).
+// -x createBundleReleaseJsAndAssets scheitert (Outputs werden von mapReleaseSourceSetPaths gelesen);
+// den Task nur zu deaktivieren laesst den Output-Provider auswertbar.
+allprojects {
+    def found = false
+    tasks.configureEach { t ->
+        if (t.name == 'createBundleReleaseJsAndAssets') {
+            t.enabled = false
+            found = true
+        }
+    }
+    gradle.projectsEvaluated {
+        if (project.path == ':app' && !found) {
+            logger.warn("WARNUNG skip-js-bundle.init.gradle: Task createBundleReleaseJsAndAssets nicht gefunden - Bundling wird NICHT uebersprungen (Task umbenannt?)")
+        }
+    }
+}

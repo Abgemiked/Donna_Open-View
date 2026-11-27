@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #234: statische App-Shortcuts (Icon halten). Extras muessen zu widget/DonnaEntries.kt passen
+     (start_mode=text, kanal=shortcut). targetPackage = applicationId. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_keyboard"
+        android:shortcutId="frage_tippen"
+        android:shortcutLongLabel="@string/shortcut_frage_long"
+        android:shortcutShortLabel="@string/shortcut_frage_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.yourcompany.donna.VoiceInputActivity"
+            android:targetPackage="com.yourcompany.donna">
+            <extra android:name="start_mode" android:value="text" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_idea"
+        android:shortcutId="idee_erfassen"
+        android:shortcutLongLabel="@string/shortcut_idee_long"
+        android:shortcutShortLabel="@string/shortcut_idee_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.yourcompany.donna.idea.IdeaCaptureActivity"
+            android:targetPackage="com.yourcompany.donna">
+            <extra android:name="kanal" android:value="shortcut" />
+        </intent>
+    </shortcut>
+</shortcuts>

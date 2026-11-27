@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- #232: Widget-Ecken vor Android 12; ab 12 der System-Radius (values-v31). -->
+    <dimen name="donna_widget_radius">28dp</dimen>
+</resources>

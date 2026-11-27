@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Feste Palette Dunkel "Pflaume" (#134 P1)
+     Spiegelt src/theme/palettes.ts (RN); Paritaet und Kontrast pruefen src/__tests__/theme.test.ts.
+     Material You (values-v31) entfaellt (#134 P1): feste Paletten. -->
+<resources>
+    <color name="donna_bg">#14061b</color>
+    <color name="donna_surface">#24102f</color>
+    <color name="donna_card">#24102f</color>
+    <color name="donna_border">#4a3560</color>
+    <color name="donna_accent">#b3a8ff</color>
+    <color name="donna_accent2">#d9d3ff</color>
+    <color name="donna_text">#ffffff</color>
+    <color name="donna_muted">#bdb4d2</color>
+    <color name="donna_on_accent">#14061b</color>
+    <color name="donna_ok">#34e0b2</color>
+    <color name="donna_accent_solid">#6c5ce7</color>
+    <color name="donna_on_accent_solid">#ffffff</color>
+    <color name="donna_action">#34e0b2</color>
+    <color name="donna_on_action">#04241e</color>
+    <color name="donna_surface_sunken">#1d0b27</color>
+    <color name="donna_accent_container">#3a2a6e</color>
+    <color name="donna_on_accent_container">#ffffff</color>
+    <color name="donna_heading">#ffffff</color>
+    <color name="donna_control_border">#8f86a8</color>
+    <color name="donna_danger">#fbbf24</color>
+    <color name="donna_handle">#4a3560</color>
+    <color name="donna_mic_active">#3a2a6e</color>
+</resources>

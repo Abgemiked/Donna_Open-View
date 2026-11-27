@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Welle 3 (#237): eigene Datei, damit die W2-Ressourcen unangetastet bleiben. -->
+<resources>
+    <!-- #244: Knopf im Szenen/Routinen-Widget -->
+    <style name="DonnaWidgetHomeButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginStart">3dp</item>
+        <item name="android:layout_marginEnd">3dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/widget_home_btn_bg</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textColor">@color/donna_on_accent_container</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- #247: Zeile im Timer-Widget (Beschriftung) -->
+    <style name="DonnaWidgetTimerLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/donna_text</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- #247: Countdown im Timer-Widget -->
+    <style name="DonnaWidgetTimerClock">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:textColor">@color/donna_heading</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+    </style>
+</resources>

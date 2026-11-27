@@ -1,0 +1,477 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- DONNA-157: AICore benötigt minSdk 31 — Runtime-Guard in GeminiNanoModule.kt schützt ältere Geräte -->
+    <uses-sdk tools:overrideLibrary="com.google.ai.edge.aicore" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- WakeLock: hält CPU im Doze-Mode aktiv für NtfyService SSE-Stream -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- DONNA-13: Lokale Notifications auf Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- DONNA-73: Wake-Word Mikrofon-Aufnahme im Hintergrund -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!-- A2 Live-Bubble (Increment 1): Foreground-Service-Typ "specialUse" (schwebender Assistent, noch ohne Mikro) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <!-- DONNA-13: Exakter AlarmManager-Restart für NtfyService nach onTaskRemoved (Samsung One UI) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- #153: Erinnerungs-Popup über dem Sperrbildschirm (Android 14+: Sonderberechtigung, in den Einstellungen verlinkt) -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- DONNA-119: Activity Recognition -->
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- DONNA-120: Health Connect -->
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <!-- DONNA-129: UWB Indoor-Positionierung (android:required="false" → graceful degradation) -->
+    <uses-feature android:name="android.hardware.uwb" android:required="false" />
+    <uses-permission android:name="android.permission.UWB_RANGING" />
+    <!-- DONNA-130: Kamera für Vision-Analyse (android:required="false" → graceful degradation) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- #219: nur um die URI des eben aufgenommenen Screenshots für die Vorschau zu finden (Metadaten); optional -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <!-- #147 Paket F: Helligkeit setzen (Sonderrecht „Systemeinstellungen ändern“, nur per Systemseite erteilbar, nie automatisch) -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
+    <!-- #147 Paket F: „Nicht stören“ schalten (Sonderzugriff, nur per Systemseite erteilbar, nie automatisch) -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <!-- WhatsApp/Telegram-Queries fuer Linking.canOpenURL Support (Android 11+) -->
+    <queries>
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        <!-- Tesla-App: Ziel lautlos ans Auto senden (TeslaNav → com.tesla.share.ShareActivity) -->
+        <package android:name="com.teslamotors.tesla" />
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+        <!-- #147 Paket I: E-Mail-Entwurf oeffnen (mailto:), Paketsichtbarkeit Android 11+; keine neue Berechtigung -->
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+            <data android:scheme="tel" />
+        </intent>
+        <!-- Kamera oeffnen: System-Kamera direkt waehlen (ohne Auswahldialog); Paketsichtbarkeit, keine Berechtigung -->
+        <intent>
+            <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.VIDEO_CAMERA" />
+        </intent>
+        <!-- #147 Geraete-Aktionen: startbare Apps finden (App oeffnen nach Name); keine neue Berechtigung -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".MainApplication"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="false"
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustNothing"
+            android:exported="true">
+            <!-- Launcher-Icon -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- #234: statische App-Shortcuts "Frage tippen" / "Idee erfassen" -->
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <!-- VoiceInputActivity — Bixby/Gemini-style Overlay für Donna
+             Öffnet als Bottom-Sheet über der aktuellen App wenn Donna als
+             Digitaler Assistent aufgerufen wird (Side-Button / Assistant-Einstellung).
+             excludeFromRecents: erscheint nicht in der Recents-Liste. -->
+        <activity
+            android:name=".VoiceInputActivity"
+            android:label="Donna"
+            android:theme="@style/Theme.DonnaVoiceOverlay"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:exported="true">
+            <!-- ASSIST wandert zu LiveBubbleLauncherActivity (Mike 2026-11-01: Funktionstaste → Live-Bubble).
+                 VoiceInputActivity wird nur noch per explizitem Intent geöffnet (Bubble-Tap / Lockscreen-Fallback). -->
+        </activity>
+
+        <!-- A2 (Mike 2026-11-01): Funktionstaste/ASSIST → unsichtbares Live-Bubble-Trampolin.
+             Entsperrt → Bubble (LiveBubbleService); gesperrt oder ohne Overlay-Recht → Fallback aufs bestehende Overlay. -->
+        <activity
+            android:name=".LiveBubbleLauncherActivity"
+            android:label="Donna"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- #233: Ideen-Schnellerfassung (Ideen-Widget, Shortcut). Nur ueber eigene PendingIntents/Shortcuts (nicht exportiert). -->
+        <activity
+            android:name=".idea.IdeaCaptureActivity"
+            android:label="@string/idea_heading"
+            android:theme="@style/Theme.DonnaCapture"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
+
+        <!-- #232: Donna-Suchleiste (4x1) -->
+        <receiver
+            android:name=".widget.SearchBarWidgetProvider"
+            android:label="@string/widget_search_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_search_bar_info" />
+        </receiver>
+
+        <!-- #233: Ideen-Widget (2x1) -->
+        <receiver
+            android:name=".widget.IdeaWidgetProvider"
+            android:label="@string/widget_idea_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_idea_info" />
+        </receiver>
+
+        <!-- #239: Erinnerungen-Widget (4x2) -->
+        <receiver
+            android:name=".widget.ReminderWidgetProvider"
+            android:label="@string/widget_reminders_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_reminders_info" />
+        </receiver>
+
+        <!-- #240: Kalender-Widget (4x2) -->
+        <receiver
+            android:name=".widget.CalendarWidgetProvider"
+            android:label="@string/widget_calendar_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_calendar_info" />
+        </receiver>
+
+        <!-- #241: Stream-Widget (3x1) -->
+        <receiver
+            android:name=".widget.StreamWidgetProvider"
+            android:label="@string/widget_stream_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_stream_info" />
+        </receiver>
+
+        <!-- #239: Knoepfe Erledigt/Spaeter des Erinnerungen-Widgets; nur eigener PendingIntent. -->
+        <receiver
+            android:name=".widget.ReminderWidgetActionReceiver"
+            android:exported="false" />
+
+        <!-- #234: Schnelleinstellungs-Kachel "Donna" (oeffnet das Overlay wie die Funktionstaste) -->
+        <service
+            android:name=".widget.DonnaTileService"
+            android:label="@string/tile_label"
+            android:icon="@drawable/ic_donna_mic"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- #153: Erinnerungs-Popup (Vollbild-Absicht der Benachrichtigung): über dem Sperrbildschirm, ohne zu entsperren.
+             Nur per eigenem PendingIntent erreichbar (nicht exportiert). -->
+        <activity
+            android:name=".reminder.ReminderPopupActivity"
+            android:label="Erinnerung"
+            android:theme="@style/Theme.DonnaVoiceOverlay"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:exported="false" />
+
+        <!-- #153: Tasten Erledigt/Später der Erinnerungs-Benachrichtigung; nur eigener PendingIntent. -->
+        <receiver
+            android:name=".reminder.ReminderActionReceiver"
+            android:exported="false" />
+
+        <!-- PairingActivity — DONNA-103: TOTP-Pairing beim ersten App-Start -->
+        <activity
+            android:name=".PairingActivity"
+            android:label="Donna einrichten"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+
+        <!-- TrackingService — GPS + App-Aktivitäts-Tracking im Hintergrund -->
+        <service
+            android:name=".TrackingService"
+            android:foregroundServiceType="location"
+            android:exported="false" />
+
+        <!-- A2: LiveBubbleService — verschiebbarer, touch-durchlässiger Chat-Head ("Live-Bubble") über allen Apps.
+             Increment 3c/3d: die Gesprächsschleife (STT/SpeechRecognizer) hostet hier → foregroundServiceType
+             "specialUse" (schwebende Blase) + "microphone" (Android 14+ Pflicht für AudioRecord/STT).
+             FOREGROUND_SERVICE_MICROPHONE-Permission ist bereits deklariert. -->
+        <service
+            android:name=".LiveBubbleService"
+            android:foregroundServiceType="specialUse|microphone"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="floating_assistant_bubble" />
+        </service>
+
+        <!-- DONNA-151: WakeWord deaktiviert — reaktivierbar durch Auskommentierung entfernen
+        <service
+            android:name=".WakeWordService"
+            android:foregroundServiceType="microphone"
+            android:exported="false" /> -->
+
+        <!-- NtfyService — DONNA-13: ntfy Push-Empfang auch bei App-Kill -->
+        <service
+            android:name=".NtfyService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <!-- #180: dataSync hat ab Android 15 ein ~6h/24h-Limit (Absturz). specialUse hat keins. -->
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="ntfy_push_stream" />
+        </service>
+
+        <!-- NtfyRestartReceiver — DONNA-13: Empfängt AlarmManager-Broadcast nach onTaskRemoved.
+             exported="false": Nur App-interner AlarmManager-PendingIntent — kein externer Zugriff. -->
+        <receiver
+            android:name=".NtfyRestartReceiver"
+            android:exported="false" />
+
+        <!-- NtfyBootReceiver — Startet NtfyService nach Geräte-Neustart.
+             exported="true": BOOT_COMPLETED wird vom System-Prozess (UID 1000)
+             gesendet — exported=true erforderlich damit der Receiver erreichbar ist. -->
+        <receiver
+            android:name=".NtfyBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-119: ActivityRecognitionReceiver — empfängt ActivityTransitionResult von Google Play Services -->
+        <receiver
+            android:name=".ActivityRecognitionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.yourcompany.donna.ACTIVITY_TRANSITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-120: HealthConnectPermissionActivity — Pflicht laut Health Connect Docs -->
+        <activity
+            android:name=".HealthConnectPermissionActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+
+        <!-- Ersteinrichtung (Health-Connect-Schritt): Ab Android 14 verlangt Health Connect zusätzlich zu
+             ACTION_SHOW_PERMISSIONS_RATIONALE einen activity-alias VIEW_PERMISSION_USAGE (Datenschutz-
+             Hinweis). Ohne ihn zeigt Health Connect den Berechtigungs-Dialog nicht an. -->
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:targetActivity=".HealthConnectPermissionActivity"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- DONNA-126: BixbyOnboardingActivity — einmaliger Onboarding-Hinweis für Bixby Quick Commands -->
+        <activity
+            android:name=".BixbyOnboardingActivity"
+            android:label="Donna mit Bixby verbinden"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+
+        <!-- DonnaAccessibilityService — Screen-Content-Tracking für News/Social/Video
+             DONNA-127: On-Demand Screen-Text via AccessibilityBridge (kein Auto-Push für alle Apps)
+             exported="false": Nur system-interner Aufruf via BIND_ACCESSIBILITY_SERVICE -->
+        <service
+            android:name=".DonnaAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- DONNA-121: GeofenceBroadcastReceiver — empfängt Geofence-Transitions von Google Play Services -->
+        <receiver
+            android:name=".GeofenceBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.yourcompany.donna.GEOFENCE_TRANSITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- DONNA-122: DonnaNotificationListener — Notification Access für Donna
+             BIND_NOTIFICATION_LISTENER_SERVICE: Pflicht-Permission laut Android-Docs.
+             User muss in Einstellungen → Benachrichtigungszugriff aktivieren. -->
+        <service
+            android:name=".DonnaNotificationListener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+
+        <!-- Welle 3 (#237) ─────────────────────────────────────────────────────────────── -->
+        <!-- #244: Szenen/Routinen-Widget; Auswahl beim Platzieren (Konfiguration, vom Launcher gestartet → exportiert,
+             prueft die Widget-Kennung), Bestaetigungsfenster nur ueber eigenen PendingIntent (nicht exportiert). -->
+        <receiver
+            android:name=".widget.HomeActionsWidgetProvider"
+            android:label="@string/widget_home_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_home_actions_info" />
+        </receiver>
+        <activity
+            android:name=".widget.HomeActionsConfigActivity"
+            android:label="@string/widget_home_config_title"
+            android:theme="@style/AppTheme"
+            android:excludeFromRecents="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.HomeActionConfirmActivity"
+            android:label="@string/widget_home_label"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:theme="@style/Theme.DonnaCapture"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:exported="false" />
+
+        <!-- #245: Nicht-stoeren-Schalter (Umschalten nur ueber den nicht exportierten WidgetW3ActionReceiver) -->
+        <receiver
+            android:name=".widget.FocusWidgetProvider"
+            android:label="@string/widget_focus_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_focus_info" />
+        </receiver>
+
+        <!-- #245/#247: Umschalten (Nicht stoeren) und Timer-Ablauf; nur eigene PendingIntents (nicht exportiert). -->
+        <receiver
+            android:name=".widget.WidgetW3ActionReceiver"
+            android:exported="false" />
+
+        <!-- #246: Tagesbriefing-Kachel -->
+        <receiver
+            android:name=".widget.BriefingWidgetProvider"
+            android:label="@string/widget_briefing_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_briefing_info" />
+        </receiver>
+
+        <!-- #247: Timer-Widget -->
+        <receiver
+            android:name=".widget.TimerWidgetProvider"
+            android:label="@string/widget_timer_label"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_timer_info" />
+        </receiver>
+    </application>
+</manifest>

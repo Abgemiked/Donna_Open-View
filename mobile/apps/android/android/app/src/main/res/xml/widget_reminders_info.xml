@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Welle 2 (#236): 4x2. updatePeriodMillis 30 min = Sicherheitsnetz; Hauptanstoss ueber WidgetRefresher. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/widget_reminders_desc"
+    android:initialLayout="@layout/widget_list"
+    android:minHeight="120dp"
+    android:minResizeHeight="40dp"
+    android:minResizeWidth="180dp"
+    android:minWidth="250dp"
+    android:previewImage="@mipmap/ic_launcher"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellHeight="2"
+    android:targetCellWidth="4"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

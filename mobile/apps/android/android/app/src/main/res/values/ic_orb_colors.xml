@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #156: feste Orb-Farben fuer Launcher-Icon, Startbild und grosses Benachrichtigungs-Symbol (gelten in Hell und Dunkel gleich).
+     Grund/Kugel = dunkle Palette (values-night/colors.xml), Glueh-Farben = Farbkranz src/components/orb/orbColors.ts. -->
+<resources>
+    <color name="ic_orb_ground">#14061b</color>
+    <color name="ic_orb_sphere">#24102f</color>
+</resources>

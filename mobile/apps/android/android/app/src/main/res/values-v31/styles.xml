@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- #156: Startbild ab Android 12 (windowSplashScreen* gibt es erst ab API 31). Dunkler Grund in Hell wie Dunkel. -->
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:editTextBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/donna_bg</item>
+        <item name="colorAccent">@color/donna_accent</item>
+        <item name="android:windowSplashScreenBackground">@color/ic_orb_ground</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_orb</item>
+        <item name="android:windowSplashScreenAnimationDuration">900</item>
+    </style>
+</resources>
